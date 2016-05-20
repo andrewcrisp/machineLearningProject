@@ -1,0 +1,28 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1463760137040.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A619537F",
+    "lastKnownWriteTime" : 1094934859085774854,
+    "last_content_update" : 1463760137040,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "q2ifi4ff0a",
+        "caption" : "training",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=training&cache_key=q2ifi4ff0a",
+        "displayedObservations" : 19622,
+        "environment" : "",
+        "object" : "training",
+        "totalObservations" : 19622,
+        "variables" : 160
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

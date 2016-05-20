@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(caret)\nlibrary(xgboost)\n\nset.seed(1)\n\nclasses = c(chr,)\n\n\ntraining <- read.csv2(\"pml-training.csv\",sep = \",\", stringsAsFactors = FALSE)\ntesting <- read.csv2(\"pml-testing.csv\", sep=\",\", stringsAsFactors = FALSE)\n\n\n\n\nmodel<-train(classe~., data=training, method=\"xgbTree\")\n",
+    "created" : 1463759942048.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1741894297",
+    "id" : "B5B55C68",
+    "lastKnownWriteTime" : 6,
+    "last_content_update" : 1463771180299,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
