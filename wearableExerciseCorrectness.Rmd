@@ -1,0 +1,76 @@
+---
+title: "Wearables exercise correctness"
+author: "Andrew Crisp"
+date: "5/20/2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Premise
+
+Using wearable sensors, six participants performed barbell lifts both incorrectly and correctly. The sensors monitored motion from belt, forearm, arm, and dumbell. Collected data includes some metadata, including name of participant, and three dimensional movement measurements.
+
+## Preparation
+
+The data is provided by the Human Activity Recognition project from the Augmented Human conference in 2013.  The paper may be found at:
+http://groupware.les.inf.puc-rio.br/har#weight_lifting_exercises
+
+Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. Qualitative Activity Recognition of Weight Lifting Exercises. Proceedings of 4th International Conference in Cooperation with SIGCHI (Augmented Human '13) . Stuttgart, Germany: ACM SIGCHI, 2013.
+
+After loading the datasets, we must remove all NA and blank values.  Further, we filter out all fields that are not direct measurements of the exercise motions (belt, arm, dumbbell, and forearm) or the final classe variable.
+
+```{r}
+library(lattice)
+library(ggplot2)
+library(plyr)
+library(caret)
+library(xgboost)
+
+set.seed(1)
+
+setwd("~/projects/machineLearning")
+
+training <- read.csv("pml-training.csv", sep=",")
+testing <- read.csv("pml-testing.csv", sep=",")
+
+newTraining <-training[sapply(training, function(x)
+  !any(is.na(x) | x =="")
+)]
+newTraining <- newTraining[,grep("_belt|_arm|_dumbbell|_forearm|classe",colnames(newTraining))]
+
+newTesting <- testing[sapply(testing, function(x)
+  !any(is.na(x) | x == "")
+)]
+newTesting <- newTesting[,grep("_belt|_arm|_dumbbell|_forearm",colnames(newTesting))]
+```
+
+## Model creation
+
+A model was built using the xgboost package. This is a gradient boosting library with parallel tree boosting. The project page claims that the library is one of the most frequently used by winning machine learning contest teams.
+
+The xgbTree method has it's own multithreading abilities.  Since we have already filtered out all non-measurement data, the default options may be used when making the model.
+
+```{r opts_chunk$set(cache=TRUE)}
+model <- train(classe~., data=newTraining, method="xgbTree")
+```
+
+## Performance
+
+The model anecdotally performs well.  For the course requirements, it correctly identified all twenty cases.  Calculating the in sample accuracy shows a high success rate.
+
+Predictions are made, but withheld to comply with the Coursera Honor Code. 
+
+```{r}
+performance <- confusionMatrix(model)
+accuracy <- sum(diag(performance$table)/100)
+
+predictions <- predict(model, newTesting)
+write.csv(predictions, file = "predictions.csv")
+
+accuracy
+performance
+```
+
